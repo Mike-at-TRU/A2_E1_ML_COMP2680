@@ -1,3 +1,5 @@
+import { CourseOutcome } from "./courseOutcome.mjs";
+
 const rawInput = `Student_ID,Course_ID,Semester_Number,Outcome\n
 12430,MATH_1140,1,A-\n 
 12430,COMP_1130,1,A\n
@@ -58,61 +60,25 @@ else isValidOrder = false;
 
 
 if (isValidOrder) {
-    const letterGradeToGradePoints = x => {
-        let GradePoints;
-        switch (x) {
-            //https://www.tru.ca/distance/services/policies/newgrading.html
-            case `A+`:
-                GradePoints = 4.3;
-                break;
-            case `A`:
-                GradePoints = 4.0;
-                break;
-            case `A-`:
-                GradePoints = 3.67;
-                break;
-            case `B+`:
-                GradePoints = 3.33;
-                break;
-            case `B`:
-                GradePoints = 3.0;
-                break;
-            case `B-`:
-                GradePoints = 2.67;
-                break;
-            case `C+`:
-                GradePoints = 2.33;
-                break;
-            case `C`:
-                GradePoints = 2.00;
-                break;
-            case 'C-':
-                GradePoints = 1.67;
-                break;
-            case `D`:
-                GradePoints = 1.00;
-                break;
-            default:
-                GradePoints = 0;
-        }
-        return GradePoints;
-    };
 
 
 
-    const removedInfo = seperatedOnLines;
-    removedInfo.shift(); //why does this mutate the original? 
-    console.log({ removedInfo });
 
-    let partOfTestingGradePoints = [];
-    for (let i = 0; i < removedInfo.length; i++) { //How do I do this with the .forEach?
-        partOfTestingGradePoints[i] = removedInfo[i].split(`,`);
-    }
-    const testingGradePoints = partOfTestingGradePoints;
-    testingGradePoints.forEach(print);
-    for (let i = 0; i < testingGradePoints.length; i++) {
-        console.log(testingGradePoints[i][3] + ` Is worth ` + letterGradeToGradePoints(testingGradePoints[i][3]) + ` points`);
-    }
+    const infoInCourseOutcome = seperatedOnLines.slice(1).map(textRow => textRow.split(',')).map(studentInfo => {
+        const studentID = studentInfo[0];
+        const courseID = studentInfo[1];
+        const semester = studentInfo[2];
+        const outcome = studentInfo[3];
+        return new CourseOutcome(studentID, courseID, semester, outcome);
+    });
+    console.log({ removedInfo: infoInCourseOutcome });
+
+
+    infoInCourseOutcome.forEach(print);
+    console.log(infoInCourseOutcome.forEach(x => { x.letterGradeToGradePoints(); }));
+
+
+
 
 
 
