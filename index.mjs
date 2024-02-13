@@ -41,11 +41,10 @@ const lengthOfStudentIds = 4; //-1 because starts at 0
 
 console.log(typeof seperatedOnLines);
 const print = x => console.log(x);
-const printLength = x => console.log(x.length);
-// seperatedOnLines.forEach(print);
-// seperatedOnLines.forEach(printLength);
+
+
 const orderOfInfoGiven = seperatedOnLines[0].split(`,`);
-orderOfInfoGiven.forEach(print);
+
 const typesOfInformation = [`Student_ID`, `Course_ID`, `Semester_Number`, `Outcome`];
 let isValidOrder = true;
 
@@ -56,7 +55,10 @@ if (typesOfInformation.length === orderOfInfoGiven.length) {
     }
 }
 else isValidOrder = false;
-
+const positionOfstudentID = 0;
+const positionOfcourseID = 1;
+const positionOfSemester = 2;
+const positionOfOutcome = 3;
 
 
 if (isValidOrder) {
@@ -65,17 +67,33 @@ if (isValidOrder) {
 
 
     const infoInCourseOutcome = seperatedOnLines.slice(1).map(textRow => textRow.split(',')).map(studentInfo => {
-        const studentID = studentInfo[0];
-        const courseID = studentInfo[1];
-        const semester = studentInfo[2];
-        const outcome = studentInfo[3];
+        const studentID = studentInfo[positionOfstudentID];
+        const courseID = studentInfo[positionOfcourseID];
+        const semester = studentInfo[positionOfSemester];
+        const outcome = studentInfo[positionOfOutcome];
         return new CourseOutcome(studentID, courseID, semester, outcome);
     });
-    console.log({ removedInfo: infoInCourseOutcome });
+    //console.log(infoInCourseOutcome);
+
+    //group by studentID
+    const studentOutcomes = infoInCourseOutcome.reduce((listOfStudentIDs, next) => {
+        if (!listOfStudentIDs.has(next.studentID)) {
+            listOfStudentIDs.set(next.studentID, new Array());
+            listOfStudentIDs.get(next.studentID)[0] = next;
+            return listOfStudentIDs;
+        }
+        listOfStudentIDs.get(next.studentID)[listOfStudentIDs.get(next.studentID).length] = next;
+        return listOfStudentIDs;
+
+    }, new Map());
+
+    console.log(studentOutcomes);
 
 
-    infoInCourseOutcome.forEach(print);
-    console.log(infoInCourseOutcome.forEach(x => { x.letterGradeToGradePoints(); }));
+
+    //iterate through Map
+    //figure out how to do a Map Map CourseOutcomes 
+
 
 
 
