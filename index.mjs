@@ -87,7 +87,20 @@ if (isValidOrder) {
 
     }, new Map());
 
-    console.log(studentOutcomes);
+    const calculateGPA = x => {
+        const numberOfClasses = x.length;
+        return x.reduce((runningTotal, nextValue) => {
+            runningTotal += nextValue.letterGradeToGradePoints();
+        },
+            0) / numberOfClasses;
+
+
+    };
+
+    console.log((studentOutcomes.get(infoInCourseOutcome[0].studentID))[0].letterGradeToGradePoints());
+    studentOutcomes.forEach(x => {
+        console.log(calculateGPA(x));
+    });
 
 
 
